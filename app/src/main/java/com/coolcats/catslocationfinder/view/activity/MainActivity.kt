@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             Status.LOADING -> progress_indicator.visibility = View.VISIBLE
             Status.SUCCESS -> progress_indicator.visibility = View.GONE
             else -> {
+                progress_indicator.visibility = View.GONE
                 Snackbar.make(main_view, "An Error Occurred...", Snackbar.LENGTH_SHORT).show()
             }
         }
@@ -152,7 +153,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
-        TODO("Not yet implemented")
+        /* Do Nothing */
     }
 
 }

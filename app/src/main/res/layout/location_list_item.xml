@@ -33,8 +33,8 @@
             android:layout_marginHorizontal="@dimen/std_dp"
             android:layout_marginBottom="@dimen/std_dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/location_image"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/location_name_txt"
             tools:text="123.4567890,10.98754321" />
 

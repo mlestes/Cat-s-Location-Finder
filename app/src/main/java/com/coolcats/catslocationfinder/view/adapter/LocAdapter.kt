@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.location_list_item.view.*
 
 class LocAdapter : RecyclerView.Adapter<LocAdapter.LocViewHolder>() {
 
-    private var network = LocNetwork()
     private var list: List<ResultX> = listOf()
 
     inner class LocViewHolder(view: View) : RecyclerView.ViewHolder(view)
