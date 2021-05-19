@@ -11,6 +11,7 @@ class Konstants {
         const val PHOTO_PATH = "maps/api/place/photo?"
         const val REQUEST_CODE = 600
         val LOC_TYPES = arrayListOf<String>(
+            "",
             "Food",
             "Gym",
             "Shopping",

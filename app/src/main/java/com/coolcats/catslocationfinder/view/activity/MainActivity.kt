@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
-import android.graphics.Bitmap
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
@@ -30,7 +29,7 @@ import com.coolcats.catslocationfinder.viewmodel.LocViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
+class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private val viewModel: LocViewModel by viewModels()
     private lateinit var locationManager: LocationManager
@@ -124,9 +123,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     @SuppressLint("MissingPermission")
     private fun registerListener() {
         locationManager.requestLocationUpdates(
-            LocationManager.GPS_PROVIDER,
-            10000L,
-            10f,
+            //Using NETWORK_PROVIDER since testing on physical device
+            LocationManager.NETWORK_PROVIDER,
+            1000L,
+            5f,
             myLocListener
         )
     }
@@ -147,7 +147,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         Utilities.myLog("Getting ${LOC_TYPES[position]}")
         if (this::userLocation.isInitialized)
-            viewModel.getNearbyPlaces(LOC_TYPES[position], userLocation, 10000)
+            if (LOC_TYPES[position].isNotEmpty())
+                viewModel.getNearbyPlaces(LOC_TYPES[position], userLocation, 10000)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
