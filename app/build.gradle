@@ -58,6 +58,11 @@ dependencies {
     //Coroutine Adapter
     implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
 
+    //Google Places
+    implementation 'com.google.android.libraries.places:places:2.4.0'
+
+    //Volley
+    implementation 'com.android.volley:volley:1.2.0'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

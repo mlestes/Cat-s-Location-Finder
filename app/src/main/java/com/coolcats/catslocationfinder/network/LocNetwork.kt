@@ -38,13 +38,6 @@ class LocNetwork {
         return locationNetwork.getNearbyLocations(type, location, radius, API_KEY)
     }
 
-    suspend fun getPhotoAsync(
-        ref: String,
-        height: Int
-    ): Deferred<Bitmap> {
-        return locationNetwork.getPlacePhoto(ref, height, API_KEY)
-    }
-
     interface LocationEndPoint {
         @GET(GEO_PATH)
         fun getAddress(
@@ -60,12 +53,6 @@ class LocNetwork {
             @Query("key") key: String
         ): Deferred<NearbyResult>
 
-        @GET(PHOTO_PATH)
-        fun getPlacePhoto(
-            @Query("photoreference") ref: String,
-            @Query("maxheight") height: Int,
-            @Query("key") key: String
-        ): Deferred<Bitmap>
     }
 
 }

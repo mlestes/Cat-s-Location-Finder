@@ -14,11 +14,13 @@ import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.coolcats.catslocationfinder.R
+import com.coolcats.catslocationfinder.util.Konstants.Companion.API_KEY
 import com.coolcats.catslocationfinder.util.Konstants.Companion.LOC_TYPES
 import com.coolcats.catslocationfinder.util.Konstants.Companion.REQUEST_CODE
 import com.coolcats.catslocationfinder.util.LocListener
@@ -26,19 +28,28 @@ import com.coolcats.catslocationfinder.util.Status
 import com.coolcats.catslocationfinder.util.Utilities
 import com.coolcats.catslocationfinder.view.adapter.LocAdapter
 import com.coolcats.catslocationfinder.viewmodel.LocViewModel
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
+    LocAdapter.LocDelegate {
 
     private val viewModel: LocViewModel by viewModels()
     private lateinit var locationManager: LocationManager
-    private val locAdapter = LocAdapter()
     private lateinit var userLocation: Location
+    private lateinit var placesClient: PlacesClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Initialize the SDK
+        Places.initialize(applicationContext, API_KEY)
+
+        // Create a new PlacesClient instance
+        placesClient = Places.createClient(this)
 
         locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         ArrayAdapter.createFromResource(
@@ -51,7 +62,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 type_spinner.adapter = it
             }
         type_spinner.onItemSelectedListener = this
+
+        val locAdapter = LocAdapter(this, placesClient)
         result_recyclerview.adapter = locAdapter
+
         viewModel.geoData.observe(this, {
             user_location_txt.text = it.formatted_address
         })
@@ -95,7 +109,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                         )
                             .setTitle("Permission Needed!")
                             .setMessage("Location permissions are required in order to use this application. If you refuse to grant this permission, then uninstall the application.")
-                            .setPositiveButton("Open Settings") { dialog, _ ->
+                            .setPositiveButton("Open Settings") { _, _ ->
                                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                                 intent.data = Uri.fromParts("package", packageName, null)
                                 startActivity(intent)
@@ -154,6 +168,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
         /* Do Nothing */
+    }
+
+    override fun makeToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
 }
