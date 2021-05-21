@@ -98,7 +98,6 @@ class LocAdapter(private val locDelegate: LocDelegate, private val placesClient:
                                 //Log the failure, set default
                                 myLog("Place not found: " + exception.message)
                                 holder.itemView.location_image.setImageResource(R.drawable.ic_broken_img)
-
                             }
                     }
             }

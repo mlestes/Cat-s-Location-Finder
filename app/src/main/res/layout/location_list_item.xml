@@ -41,7 +41,8 @@
         <ImageView
             android:id="@+id/location_image"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/img_dp"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
